@@ -1,0 +1,380 @@
+{% load static %} 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+
+	<title>PlaceTech Resume Builder</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" media="all" /> 
+	<link href="{% static 'css/resume.css' %}" rel="stylesheet"/>
+	<script src="{% static 'js/pdf.js' %}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+	
+    <style>
+        /* Set the width to 60% for the resume container */
+        .resume-container {
+            width: 60%;
+
+			
+			margin: 40px;
+        }
+
+        .container {
+            display: flex; /* Use flexbox to align items horizontally */
+            justify-content: flex-end; /* Place the logo at the right side of the container */
+            align-items: center; /* Center the logo vertically within the container */
+           
+            padding: 10px; /* Add padding to the container */
+        }
+        
+        .logo {
+            width: 80px; /* Adjust the width as needed to make it smaller */
+            height: auto; /* Automatically adjust the height to maintain the aspect ratio */
+            margin-right: 10px; /* Add some spacing between the logo and the container edge */
+        }
+
+        .blue-line {
+            border: 2px solid skyblue;
+            margin-top: 0px; /* Adjust the margin as needed to control the spacing */
+            margin-bottom: 5px; /* Adjust the margin as needed to control the spacing */
+        } 
+
+        .info {
+            font-size: 15px; /* Adjust the font size as needed */
+            margin-bottom: 10px;
+        } 
+
+{% comment %} 
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            
+            
+        }
+
+        table, thead , th , td{
+            border: 1px solid black;
+        }
+
+    
+
+        
+        td {
+            padding: 6px;
+            text-align: left;
+			
+        } {% endcomment %}
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        table, th, td {
+            border: 1px solid black;
+        }
+        
+        thead th {
+            
+            padding: 8px;
+            text-align: left;
+            background-color: lightgrey;
+            border: 1px solid black !important;
+            
+        }
+        
+        td {
+            padding: 6px;
+            text-align: left;
+        }
+        
+
+    
+
+
+        h2 {
+            font-size: 18px;
+        }
+
+        h3 {
+            font-size: 16px;
+        }
+
+        h4 {
+            font-size: 14px;
+        }
+
+        .contact-info {
+            margin-top: 10px;
+        } 
+
+
+
+    </style>
+
+
+</head>
+<body>
+
+
+
+    <!-- Wrap the entire resume content in a div with the "resume-container" class -->
+    <div id="doc2" class="resume-container" style="padding-right: 20%; padding-left: 5% ">
+
+        {% comment %} <br>
+        <br>
+        <br>
+        <br> {% endcomment %}
+
+        <div class="container">
+            <img src="{% static 'images/download1.png' %}" class="logo">
+        </div>
+        <hr class="blue-line">
+        <br>
+        <br>
+
+
+        <p class="info"><strong style="font-size: 17px;">B.Tech {{ resume_info.inter }}</strong></p>
+        
+        <p class="info"><strong>Name:-</strong> {{ resume_info.name }}</p>
+
+        <p class="info"><strong>Date of Birth:-</strong> {{ resume_info.dob }}</p>
+
+        <!-- Email -->
+        <p class="info"><strong>Email Id:-</strong> {{ resume_info.email }}</p>
+
+        <!-- Phone Number -->
+        <p class="info"><strong>Mob No:-</strong> {{ resume_info.phone }}</p>
+
+        
+
+        <br></br> 
+
+
+       
+        <table style="background-color: lightgrey;">
+            <tr>
+                <td><strong style="font-size: 17px;">About</strong></td>
+            </tr>
+        </table>
+        <br>
+        <p style="margin-left: 0.5em; margin-top: 10px; font-size: 14px; ">{{ resume_info.about_you }}</p>
+
+        <br></br>
+
+        
+        <table style="background-color: lightgrey;">
+            <tr>
+                <td><strong style="font-size: 17px;">Education</strong></td>
+            </tr>
+        </table> 
+        <br>
+        <br>
+
+        <!-- Education Section -->
+        <div class="table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Degree</th>
+                        <th>Institute</th>
+                        <th>Year</th>
+                        <th>Performance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Repeat the following row structure for each education entry -->
+                    <tr>
+                        <td>{{ resume_info.degree }}</td>
+                        <td>{{ resume_info.degins }}</td>
+                        <td>{{ resume_info.degyear }}</td>
+                        <td>{{ resume_info.degper }}/10</td>
+                    </tr>
+                    <tr>
+                        <td>{{ resume_info.hscdeg }}</td>
+                        <td>{{ resume_info.hscins }}</td>
+                        <td>{{ resume_info.hscyear }}</td>
+                        <td>{{ resume_info.hscper }}%</td>
+                    </tr>
+                    <tr>
+                        <td>SSC</td>
+                        <td>{{ resume_info.highschool }}</td>
+                        <td>{{ resume_info.sscyear }}</td>
+                        <td>{{ resume_info.sscper }}%</td>
+                    </tr>
+
+                    <!-- Repeat the above row structure for each education entry -->
+                </tbody>
+            </table>
+        </div>
+
+
+       
+        <br></br> 
+        <br>
+
+		
+
+        
+         
+        <table style="background-color: lightgrey;">
+            <tr>
+                <td><strong style="font-size: 17px;">Technical Skills</strong></td>
+            </tr>
+        </table>
+        <br>
+        <br>
+        
+        
+        
+        <div class="table">
+            {% comment %} <table class="table table-bordered "> {% endcomment %}
+            <table>    
+                <thead>
+                    <tr>
+                        <th>Domain</th>
+                        <th>Proficient In</th>
+                        <th>Familiar with</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Repeat the following row structure for each education entry -->
+                    <tr>
+                        <td>Languages</td>
+                        <td>{{ resume_info.proskills }}</td>
+                        <td>{{ resume_info.famskills }}</td>
+                    </tr>
+                    <tr>
+                        <td>Technologies</td>
+                        <td>{{ resume_info.protech }}</td>
+                        <td>{{ resume_info.famtech }}</td>
+                    </tr>
+                
+                    <!-- Repeat the above row structure for each education entry -->
+                </tbody>
+            </table>
+        </div>
+
+        <br></br> 
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        
+
+
+
+        <table style="background-color: lightgrey;">
+            <tr>
+                <td><strong style="font-size: 17px;">Internships</strong></td>
+            </tr>
+        </table>
+        
+        <br>
+        <div class="table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Brief Description</th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Repeat the following row structure for each education entry -->
+                    <tr>
+                        
+                        <td>{{ resume_info.experience }}</td>
+                        <td><strong style="font-size: 18px;">&#8226;</strong> {{ resume_info.brief_description }}</td>
+                    </tr>
+                
+                    <!-- Repeat the above row structure for each education entry -->
+                </tbody>
+            </table>
+        </div>
+
+       
+        <br>
+        <br>
+
+
+
+        <table style="background-color: lightgrey;">
+            <tr>
+                <td><strong style="font-size: 17px;">Projects</strong></td>
+            </tr>
+        </table>
+        <br>
+        <div class="table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Project Title</th>
+                        <th>Technologies Used</th>
+                        <th>Project Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Repeat the following row structure for each education entry -->
+                    <tr>
+                        <td>{{ resume_info.project_title }}</td>
+                        <td>{{ resume_info.project_tech }}</td>
+                        <td>{{ resume_info.project_description }}</td>
+                    </tr>
+                   
+                    <!-- Repeat the above row structure for each education entry -->
+                </tbody>
+            </table>
+        </div>
+        
+
+        <br></br>
+
+       
+        
+        <table style="background-color: lightgrey;">
+            <tr>
+                <td><strong style="font-size: 17px;">Achivements,Training,Workshops</strong></td>
+            </tr>
+        </table>
+        <br>
+        
+        <td><strong style="font-size: 16px;">&#8226;</strong> {{ resume_info.achivements }}</td><br>
+      
+        
+        {% comment %} <td><strong style="font-size: 16px;">&#8226;</strong> For customers using both code and Salesforce no-code tools Salesforce solve complex problems </td><br> {% endcomment %}
+            
+         
+        
+    
+    </div>  
+
+
+
+
+<br><br>
+<div class="col-md-12  mb-3">
+	<button class="btn btn-dark" id="download"> download pdf</button>
+</div>
+<a class="btn btn-danger" style="padding-left: 20px;" href="/">Back to home</a><br><br>
+<footer class="bg-light text-center text-lg-start">
+	
+  </footer>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
+

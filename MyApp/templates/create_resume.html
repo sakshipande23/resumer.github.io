@@ -1,0 +1,411 @@
+
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+
+ <head>
+
+ <meta charset="utf-8"/>
+
+ <title>
+
+Resume Builder
+
+ </title>
+
+ <link href="{% static 'css/style.css' %}" rel="stylesheet"/>
+ <style>
+    .form-control[readonly] {
+        background-color: #e9ecef;
+    }
+{% comment %} 
+    textarea {
+        max-height: 200px; /* Adjust this value based on your preference for 3-4 lines */
+        overflow-y: auto;
+    } {% endcomment %}
+    .form-control.textarea {
+        height: 100px; /* Adjust this value based on your preference */
+        overflow-y: auto;
+    }
+ </style>
+
+
+ </head>
+
+ <body style="background-color: rgba(255, 253, 208,0.9)">
+
+ <!-- partial:index.partial.html -->
+
+ <div id="javascript_header">
+    <script>
+        // Function to enable or disable the "Generate resume" button and show/hide the error message
+        function checkFormCompletion() {
+            var fname = document.getElementById('fname').value;
+            var lname = document.getElementById('lname').value;
+            var phone = document.getElementById('phone').value;
+            var email = document.getElementById('email').value;
+            var dob = document.getElementById('dob').value;
+            var degree = document.getElementById('degree').value;
+            var degins = document.getElementById('degins').value;
+            var degyear = document.getElementById('degyear').value;
+            var degper = document.getElementById('degper').value;
+            var hscdeg = document.getElementById('hscdeg').value;
+            var hscins = document.getElementById('hscins').value;
+            var hscyear = document.getElementById('hscyear').value;
+            var hscper = document.getElementById('hscper').value;
+            var sscyear = document.getElementById('sscyear').value;
+            var sscper = document.getElementById('sscper').value;
+            var inter = document.getElementById('inter').value;
+            var highschool = document.getElementById('highschool').value;
+            var about_you = document.getElementById('about_you').value;
+            var experience = document.getElementById('experience').value;
+            var brief_description = document.getElementById('brief_description').value;
+            var project_title = document.getElementById('project_title').value;
+            var project_tech = document.getElementById('project_tech').value;
+            var project_description = document.getElementById('project_description').value;
+            var proskills = document.getElementById('proskills').value;
+            var famskills = document.getElementById('famskills').value;
+            var protech = document.getElementById('protech').value;
+            var famtech = document.getElementById('famtech').value;
+            var achivements = document.getElementById('achivements').value;
+
+            // Check if all required fields are filled in
+            var isFormComplete = fname && lname && phone && email && dob && degree && hscdeg && hscins && hscyear && hscper && sscyear && sscper && inter && highschool && about_you && experience && brief_description && project_title && project_tech && project_description && proskills && famskills && protech && famtech && achivements;
+
+            // Enable or disable the "Generate resume" button
+            var generateButton = document.getElementById('generateButton');
+            generateButton.disabled = !isFormComplete;
+
+            // Display/hide the error message
+            var errorMessage = document.getElementById('errorMessage');
+            if (isFormComplete) {
+                errorMessage.style.display = 'none';
+            } else {
+                errorMessage.style.display = 'block';
+            }  
+
+
+            updateCharacterCount("about_you", "aboutYouCharCount", "aboutYouCharError");
+
+            updateCharacterCount("brief_description", "briefdCharCount", "briefdCharError");
+
+            // Update character count for Project Description
+            updateCharacterCount("project_description", "projectDescCharCount", "projectDescCharError");
+    
+            // Update character count for Achievements
+            updateCharacterCount("achivements", "achievementsCharCount", "achievementsCharError");
+        
+        }
+
+        function updateCharacterCount(fieldId, charCountId, charErrorId) {
+            var input = document.getElementById(fieldId);
+            var charCount = document.getElementById(charCountId);
+            var charError = document.getElementById(charErrorId);
+            
+    
+            var remainingChars = 200 - input.value.length;
+    
+            charCount.textContent = "(Please Enter Under 200 Characters | Characters left: " + remainingChars + ")";
+    
+            if (remainingChars < 0) {
+                charCount.style.display = "none";
+                charError.style.display = "block";
+                
+            } else {
+                charCount.style.display = "block";
+                charError.style.display = "none";
+               
+            }
+        }
+
+        
+    </script>
+ </div>
+{% comment %} 
+<form method="POST" action="{% url 'MyApp:srt-resume' %}" enctype:multipart/form-data oninput="checkFormCompletion()" > {% endcomment %}
+<form method="POST" action="{% url 'MyApp:srt-resume' %}" enctype="multipart/form-data" oninput="checkFormCompletion()">
+
+{% csrf_token %} 
+
+<div class="form__header">
+
+ 
+
+ <h1>
+
+ Build Your Resume
+
+ </h1>
+<h2 style="color: coral;"> {{ stu_fname }}</h2>
+
+ <p>
+
+ Enter the fields below to generate a resume file. 
+
+ </p>
+
+ </div><br> 
+
+<!-- Display the current date and time here -->
+
+ <div class=" container mx-12 form-control-lg" style="width: 500px;"> 
+    
+    <div class="row mb-5 "> 
+        <!-- ... Other input fields ... -->
+
+
+        <h4>Personal Info:</h4>
+        <br>
+        
+        <div class="mb-3 col-8">
+            <label for="exampleInputEmail1" class="form-label">First Name</label>
+            <br>
+            <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter your First name">
+        </div>
+        <br>
+        <div class="mb-3 col-8">
+            <label for="exampleInputEmail1" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter your Last name">
+        </div> 
+        <br>
+        
+        <div class="mb-3 col-8">
+            <label for="" class="form-label">Phone No</label>
+            <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter your phone no">
+        </div>
+        <br>
+        <div class="mb-3 col-8">
+        <label for="" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your Email">
+        </div>
+        <br>
+        <div class="mb-3 col-8">
+            <label for="inputAddress" class="form-label">Date of Birth</label>
+            <input type="text" class="form-control" id="dob" name="dob" placeholder="Enter Your Date of Birth e.g. (D/M/Year)">
+        </div>
+        <br>
+        <div class="mb-3 col-8">
+            <label for="" class="form-label">About You</label>
+            <textarea class="form-control" id="about_you" name="about_you"  placeholder="Write a brief about yourself" style="height: 100px;"></textarea>
+            <div id="aboutYouCharCount" style="color: black; font-size: 12px; font-style: italic;">(Please Enter Under 200 Characters | Characters left: 200)</div>
+            <div id="aboutYouCharError" style="color: red; font-size: 15px; font-style: italic; display: none;">Please enter under 200 characters*</div>
+        </div>
+        <br>
+        <br>
+        <br>
+
+
+
+        <h4>Education:</h4>
+        <br>
+        <div class="mb-3 col-8">
+            <label for="" class="form-label">Highschool</label>
+            <input type="text" class="form-control" id="highschool" name="highschool" placeholder="Enter your High School Name">
+        </div>
+        <br>
+        <div class="mb-3 col-8">
+            <label for="" class="form-label">SSC Year</label>
+            <input type="text" class="form-control" id="sscyear" name="sscyear" placeholder="Enter your SSC Year e.g. 2018-2019">
+        </div>
+        <br>
+        <div class="mb-3 col-8">
+            <label for="" class="form-label">SSC Performance</label>
+            <input type="text" class="form-control" id="sscper" name="sscper" placeholder="Enter your SSC Percentage e.g. 78.20">
+        </div>
+        <br>
+        <br>
+        
+        <div class="mb-3 col-8">
+            <label for="" class="form-label">HSC/Diploma</label>
+            <input type="text" class="form-control" id="hscdeg" name="hscdeg" placeholder="Enter HSC or Diploma">
+        </div>
+        <br>
+        <div class="mb-3 col-8">
+            <label for="" class="form-label">HSC/Diploma Institute</label>
+            <input type="text" class="form-control" id="hscins" name="hscins" placeholder="Enter HSC/Diploma collage name">
+        </div>
+        <br>
+        <div class="mb-3 col-8">
+            <label for="" class="form-label">HSC/Diploma Year</label>
+            <input type="text" class="form-control" id="hscyear" name="hscyear" placeholder="Enter your HSC/Diploma Year e.g. 2018-2019">
+        </div>
+        <br>
+        <div class="mb-3 col-8">
+            <label for="" class="form-label">HSC/Dipolma Performance</label>
+            <input type="text" class="form-control" id="hscper" name="hscper" placeholder="Enter your HSC/Diploma Percentage e.g. 78.20">
+        </div>
+        <br>
+        <br>
+        
+        <div class="mb-3 col-8">
+            <label for="" class="form-label">Degree</label>
+            <input type="text" class="form-control" id="degree" name="degree" placeholder="Enter your degree name">
+        </div>
+        <br>
+        <div class="mb-3 col-8">
+            <label for="" class="form-label">Branch</label>
+            <input type="text" class="form-control" id="inter" name="inter" placeholder="Enter your branch/specification name">
+        </div>
+        <br>
+        
+        <div class="mb-3 col-8">
+            <label for="" class="form-label">Degree Institute</label>
+            <input type="text" class="form-control" id="degins" name="degins" placeholder="Enter your institute name">
+        </div>
+        <br>
+        
+        <div class="mb-3 col-8">
+            <label for="" class="form-label">Degree Year</label>
+            <input type="text" class="form-control" id="degyear" name="degyear" placeholder="Enter your degree Year e.g. 2018-2022">
+        </div>
+        <br>
+        
+        <div class="mb-3 col-8">
+            <label for="" class="form-label">Degree Performance</label>
+            <input type="text" class="form-control" id="degper" name="degper" placeholder="Enter your cgpa e.g. 6.8,8.2">
+        </div>
+        <br>
+        <br>
+        <br>
+
+        <h4>Skills:</h4>
+        <br>
+        <div class=" col-8">
+            <label for="skills" class="form-label">Programming Languages:Proficient In</label>
+            <input type="text" class="form-control input-lg" id="proskills" name="proskills" placeholder="Enter languages you are proficient in">
+        </div>
+        <br>
+        <div class=" col-8">
+            <label for="skills" class="form-label">Programming Languages:Familiar with</label>
+            <input type="text" class="form-control input-lg" id="famskills" name="famskills" placeholder="Enter languages you are familiar with">
+        </div>
+        <br>
+        <div class=" col-8">
+            <label for="skills" class="form-label">Technologies:Proficient In</label>
+            <input type="text" class="form-control input-lg" id="protech" name="protech" placeholder="Enter technologies you are proficient in">
+        </div>
+        <br>
+        <div class=" col-8">
+            <label for="skills" class="form-label">Technologies:Familiar with</label>
+            <input type="text" class="form-control input-lg" id="famtech" name="famtech" placeholder="Enter technologies you are familiar with">
+        </div>
+        <br>
+        <br>
+        <br>
+        
+
+        
+        
+        
+        
+        <h4>Internship:</h4>
+        <br>
+        <div class="mb-3 col-8">
+            <label for="" class="form-label">Organization Name</label>
+            <input type="text" class="form-control" id="experience" name="experience" placeholder="Enter your internship organization name">
+        </div>
+        <br>
+   
+        <div class="mb-3 col-8">
+            <label for="inputAddress2" class="form-label">Brief Description</label>
+            <textarea class="form-control" id="brief_description" name="brief_description" placeholder="Enter brief description/experience about internship" style="height: 120px;"></textarea>
+            <div id="briefdCharCount" style="color: black; font-size: 12px; font-style: italic;">(Please Enter Under 200 Characters | Characters left: 200)</div>
+            <div id="briefdCharError" style="color: red; font-size: 15px; font-style: italic; display: none; ">Please enter under 200 characters*</div>
+        </div>
+        <br>
+        <br>
+        <br>
+
+
+        <h4>Project:</h4>
+        <br>
+        <div class="mb-3 col-8">
+            <label for="inputAddress2" class="form-label">Project:Title</label>
+            <input type="text" class="form-control" id="project_title" name="project_title" placeholder="Enter your project title">
+        </div>
+        <br>
+        <div class="mb-3 col-8">
+            <label for="inputAddress2" class="form-label">Project:Technologies Used</label>
+            <input type="text" class="form-control" id="project_tech" name="project_tech" placeholder="Enter technologies used in your project">
+        </div>
+        <br>
+        <div class="mb-3 col-8">
+            <label for="inputAddress2" class="form-label">Project:Description</label>
+            <textarea class="form-control" id="project_description" name="project_description" placeholder="Enter Description of your project" style="height: 120px;"></textarea>
+            <div id="projectDescCharCount" style="color: black; font-size: 12px; font-style: italic;">(Please Enter Under 200 Characters | Characters left: 200)</div>
+            <div id="projectDescCharError" style="color: red; font-size: 15px; font-style: italic; display: none;">Please enter under 200 characters*</div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="col-8 mb-3">
+    <label for="achivements" class="form-label">Achievements, Training, Workshops</label>
+    <textarea class="form-control textarea" id="achivements" name="achivements" placeholder="Enter your Achievements, Training, Workshops" style="height: 120px;"></textarea>
+    <div id="achievementsCharCount" style="color: black; font-size: 12px; font-style: italic;">(Please Enter Under 200 Characters | Characters left: 200)</div>
+    <div id="achievementsCharError" style="color: red; font-size: 15px; font-style: italic; display: none;">Please enter under 200 characters*</div>
+</div>
+    </div> 
+    <br>
+</div>
+
+<!-- Error message div above the "Generate resume" button -->
+<div id="errorMessage" style="color: red; display: none;">*Fill all fields</div>
+
+<!-- Disable the button by default -->
+<input class="btn btn-success" type="submit" value="Generate resume" id="generateButton" disabled />
+
+
+<br>
+
+<a class="button" href="https://placetech.odoo.com/"> Back to home</a>
+</form>
+
+ <!-- Copyright -->
+<!-- JavaScript from the header -->
+ <script src="{% static 'js/script.js' %}"></script>
+ 
+
+
+ </body>
+</html> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
